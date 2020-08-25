@@ -1,4 +1,4 @@
-AWS Terrafor code
+AWS Terraform code
 - Terraform_main.tf
   1) VPC
   2) Subnet
