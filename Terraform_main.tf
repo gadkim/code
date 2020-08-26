@@ -1,7 +1,7 @@
 # Provider
 provider "aws" {
-  access_key = "zzzzzzzzzzz"
-  secret_key = "xxxxxxxxx"
+  access_key = "zzzzzzzzzzzzzzz"
+  secret_key = "xxxxxxxxxxxxxxxxxxxxxxxx"
   region = "ap-northeast-2"
 }
 
@@ -114,11 +114,25 @@ resource "aws_route_table_association" "pri-rt-association-c" {
   subnet_id     = "${aws_subnet.pri-az-c.id}"
 }
 
+resource "aws_security_group" "terraform-ec2-gs" {
+  vpc_id = "${aws_vpc.main.id}"
+  ingress {
+    protocol = "tcp"
+    from_port = 22
+    to_port = 22
+  }
+  tags = {Name = "terraform-ec2-gs"}
+}
+
 resource "aws_instance" "web" {
   ami           = "ami-027ce4ce0590e3c98"
   instance_type = "t3.micro"
   subnet_id = "${aws_subnet.pub-az-a.id}"
-  vpc_security_group_ids = ["sg-0e89f3afabb40ef4b"]
+  root_block_device {
+    volume_size = 11
+    volume_type = "gp2"
+  }
+  vpc_security_group_ids = ["${aws_security_group.terraform-ec2-gs.id}"]
   key_name = "kimkey"
   tags = {Name = "Terraform ec2"}
 }
