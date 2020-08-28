@@ -1,8 +1,8 @@
 # VPC-DEV config
 # Provider
 provider "aws" {
-  access_key = "zzzzzzzzz"
-  secret_key = "xxxxxxxxxxxxx"
+  access_key = "zzzzzzzzzzz"
+  secret_key = "xxxxxxxxxxxxxxxxxxx"
   region = "ap-northeast-2"
 }
 
@@ -158,6 +158,12 @@ resource "aws_instance" "dev-web" {
   vpc_security_group_ids = [aws_security_group.dev-terraform-ec2-gs.id]
   key_name = "gadkimkey"
   tags = {Name = "Terraform dev-ec2"}
+}
+
+# ec2 EIP
+resource "aws_eip" "dev-web-eip" {
+  instance = aws_instance.dev-web.id
+  vpc      = true
 }
 
 # pub dev ec2 volume create
@@ -329,6 +335,12 @@ resource "aws_instance" "prd-web" {
   vpc_security_group_ids = [aws_security_group.prd-terraform-ec2-gs.id]
   key_name = "gadkimkey"
   tags = {Name = "Terraform prd-ec2"}
+}
+
+# ec2 EIP
+resource "aws_eip" "prd-web-eip" {
+  instance = aws_instance.prd-web.id
+  vpc      = true
 }
 
 # pub prd ec2 volume create
