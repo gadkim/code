@@ -19,11 +19,9 @@ Reference URL : https://computingforgeeks.com/how-to-install-terraform-on-ubuntu
 Terraform moule : https://registry.terraform.io/providers/hashicorp/aws/latest/docs
 
 <1> Install Terraform on Ubuntu
-
   1) Terraform Directory Create
-  
-    # mkdir /terraform
-    # cd /terraform
+    $ mkdir /terraform
+    $ cd /terraform
     
   2) Terraform Download
     # wget  https://releases.hashicorp.com/terraform/0.12.24/terraform_0.12.24_linux_amd64.zip
