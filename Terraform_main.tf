@@ -1,8 +1,8 @@
 # VPC-DEV config
 # Provider
 provider "aws" {
-  access_key = "xxxxxxxxxxxxx"
-  secret_key = "zzzzzzzzzzzzzzzzzzzzz"
+  access_key = "zzzzzzzzz"
+  secret_key = "xxxxxxxxxxxxx"
   region = "ap-northeast-2"
 }
 
@@ -15,7 +15,7 @@ resource "aws_vpc" "main-dev" {
   enable_dns_support = true
   enable_dns_hostnames = true
   tags = {
-    Name = "Terraform VPC"
+    Name = "Terraform VPC-DEV"
   }
 }
 
@@ -131,6 +131,18 @@ resource "aws_security_group" "dev-terraform-ec2-gs" {
     to_port = 65535
     cidr_blocks = [aws_vpc.main-dev.cidr_block]
   }
+  ingress {
+  protocol = "icmp"
+  from_port = -1
+  to_port = -1
+  cidr_blocks = ["0.0.0.0/0"]
+  }
+  egress {
+  protocol = "-1"
+  from_port = 0
+  to_port = 0
+  cidr_blocks = ["0.0.0.0/0"]
+  }
   tags = {Name = "terraform-dev-ec2-gs"}
 }
 
@@ -144,7 +156,7 @@ resource "aws_instance" "dev-web" {
     volume_type = "gp2"
   }
   vpc_security_group_ids = [aws_security_group.dev-terraform-ec2-gs.id]
-  key_name = "kimkey"
+  key_name = "gadkimkey"
   tags = {Name = "Terraform dev-ec2"}
 }
 
@@ -174,7 +186,7 @@ resource "aws_vpc" "main-prd" {
   enable_dns_support = true
   enable_dns_hostnames = true
   tags = {
-    Name = "Terraform VPC"
+    Name = "Terraform VPC-PRD"
   }
 }
 
@@ -200,7 +212,7 @@ resource "aws_subnet" "prd-pri-az-a" {
  cidr_block = "10.51.3.0/24"
  availability_zone = data.aws_availability_zones.available-prd.names[0]
  map_public_ip_on_launch = "false"
- tags = {Name = "Terraform prd-pri-az-a"}
+ tags = {Name = "Terraform prd-pri-az-a"} 
 }
 
 resource "aws_subnet" "prd-pri-az-c" {
@@ -290,6 +302,18 @@ resource "aws_security_group" "prd-terraform-ec2-gs" {
     to_port = 65535
     cidr_blocks = [aws_vpc.main-prd.cidr_block]
   }
+  ingress {
+  protocol = "icmp"
+  from_port = -1
+  to_port = -1
+  cidr_blocks = ["0.0.0.0/0"]
+  } 
+  egress {
+  protocol = "-1"
+  from_port = 0
+  to_port = 0
+  cidr_blocks = ["0.0.0.0/0"]
+  }
   tags = {Name = "terraform-prd-ec2-gs"}
 }
 
@@ -303,7 +327,7 @@ resource "aws_instance" "prd-web" {
     volume_type = "gp2"
   }
   vpc_security_group_ids = [aws_security_group.prd-terraform-ec2-gs.id]
-  key_name = "kimkey"
+  key_name = "gadkimkey"
   tags = {Name = "Terraform prd-ec2"}
 }
 
