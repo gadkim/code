@@ -1,5 +1,6 @@
 # Provider
 provider "aws" {
+  profile = "gadkim"
   region = var.region
 }
 
