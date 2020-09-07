@@ -1,5 +1,4 @@
 # Provider
-variable "aws" {
-  profile = "default"
-  region = "ap-northeast-2"
+variable "region" {
+  default = "ap-northeast-2"
 }
