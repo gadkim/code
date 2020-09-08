@@ -158,6 +158,8 @@ resource "aws_instance" "dev-web" {
   vpc_security_group_ids = [aws_security_group.dev-terraform-ec2-gs.id]
   key_name = "gadkimkey"
   tags = {Name = "Terraform dev-ec2"}
+  provisioner "local-exec" {
+	  command = "echo ${aws_instance.dev-web.public_ip} > ip_address.txt"
 }
 
 # ec2 EIP
